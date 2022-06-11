@@ -19,9 +19,17 @@ export default class Step extends React.Component {
         return '';
     }
 
+    done() {
+        if(this.props.currentStep > this.props.index) {
+            return 'list-group-item-secondary';
+        }
+
+        return '';
+    }
+
     render() {
         return (
-            <li className={`list-group-item text-center ${this.active()}`}>
+            <li className={`list-group-item text-center ${this.active()} ${this.done()}`}>
                 {this.type()} por <Clock minutes={this.props.step.minutes} seconds={0} />
             </li>
         );
