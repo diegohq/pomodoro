@@ -1,8 +1,26 @@
 import React from "react";
 import Clock from "./clock";
 import Steps from "./steps";
+import LocalizedStrings from 'react-localization';
 
 export default class Timer extends React.Component {
+
+    strings = new LocalizedStrings({
+        en: {
+            focusTime: "Time to focus",
+            relaxTime: "Time to relax",
+            start: "Start",
+            skip: "Skip this step",
+            autoStart: "Start steps automatically"
+        },
+        pt: {
+            focusTime: "Hora de focar",
+            relaxTime: "Hora de relaxar",
+            start: "Iniciar",
+            skip: "Encerrar esta etapa",
+            autoStart: "Iniciar etapas automaticamente"
+        }
+    });
 
     steps = [
         {type: 'focus', minutes: 25},
@@ -106,30 +124,30 @@ export default class Timer extends React.Component {
     button() {
         if(this.state.clockRunning) {
             return (
-                <button type="button" class="btn btn-warning btn-lg square-corner" onClick={this.nextStep}>Encerrar esta etapa</button>
+                <button type="button" class="btn btn-warning btn-lg square-corner" onClick={this.nextStep}>{this.strings.skip}</button>
             );
         }
 
         if(this.currentStep().type === 'focus') {
             return (
-                <button type="button" class="btn btn-danger btn-lg square-corner" onClick={this.start}>Iniciar</button>
+                <button type="button" class="btn btn-danger btn-lg square-corner" onClick={this.start}>{this.strings.start}</button>
             );
         }
 
         return (
-            <button type="button" class="btn btn-primary btn-lg square-corner" onClick={this.start}>Iniciar</button>
+            <button type="button" class="btn btn-primary btn-lg square-corner" onClick={this.start}>{this.strings.start}</button>
         );
     }
 
     badge() {
         if(this.currentStep().type === 'focus') {
             return (
-                <span class="badge bg-danger square-corner">{this.currentStep().type}</span>
+                <span class="badge bg-danger square-corner">{this.strings.focusTime}</span>
             );
         }
 
         return (
-            <span class="badge bg-primary square-corner">{this.currentStep().type}</span>
+            <span class="badge bg-primary square-corner">{this.strings.relaxTime}</span>
         );
     }
 
@@ -152,7 +170,7 @@ export default class Timer extends React.Component {
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" checked={this.state.autoStart} onChange={this.changeAutoStart} id="auto-start" />
                     <label class="form-check-label" for="auto-start">
-                        Iniciar etapas automaticamente
+                        {this.strings.autoStart}
                     </label>
                 </div>
                 </div>

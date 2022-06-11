@@ -1,13 +1,29 @@
 import React from "react";
+import LocalizedStrings from 'react-localization';
 
 export default class Step extends React.Component {
 
+    strings = new LocalizedStrings({
+        en: {
+            focus: "Focus",
+            relax: "Relax",
+            for: "for",
+            minutes: "minutes"
+        },
+        pt: {
+            focus: "Foque",
+            relax: "Relaxe",
+            for: "por",
+            minutes: "minutos"
+        }
+    });
+
     type() {
         if(this.props.step.type === 'focus') {
-            return 'Foque';
+            return this.strings.focus;
         }
 
-        return 'Relaxe';
+        return this.strings.relax;
     }
 
     active() {
@@ -34,7 +50,7 @@ export default class Step extends React.Component {
     render() {
         return (
             <li className={`list-group-item ${this.active()} ${this.done()}`}>
-                {this.props.index + 1}. {this.type()} por {this.props.step.minutes} minutos
+                {this.props.index + 1}. {this.type()} {this.strings.for} {this.props.step.minutes} {this.strings.minutes}
             </li>
         );
     }
