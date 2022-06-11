@@ -26,11 +26,14 @@ export default class Timer extends React.Component {
                 minutes: this.steps[0].minutes,
                 seconds: 0
             },
-            clockRunning: false
+            clockRunning: false,
+            autoStart: false
         };
 
+        this.currentStep = this.currentStep.bind(this);
         this.button = this.button.bind(this);
         this.nextStep = this.nextStep.bind(this);
+        this.changeAutoStart = this.changeAutoStart.bind(this);
         this.start = this.start.bind(this);
         this.subSecond = this.subSecond.bind(this);
     }
@@ -46,8 +49,22 @@ export default class Timer extends React.Component {
                 minutes: this.steps[newCurrentStep].minutes,
                 seconds: 0
             },
-            clockRunning: false
+            clockRunning: this.state.autoStart
         });
+
+        if(this.state.autoStart) {
+            const interval = setInterval(
+                () => {
+                    this.start();
+                    clearInterval(interval);
+                },
+                1000
+            );
+        }
+    }
+
+    currentStep() {
+        return this.steps[this.state.currentStep];
     }
 
     start() {
@@ -80,24 +97,50 @@ export default class Timer extends React.Component {
         });
     }
 
+    changeAutoStart() {
+        this.setState({
+            autoStart: !this.state.autoStart
+        });
+    }
+
     button() {
         if(this.state.clockRunning) {
             return (
-                <button type="button" class="btn btn-light btn-lg" onClick={this.nextStep}>Encerrar essa etapa</button>
+                <button type="button" class="btn btn-warning btn-lg square-corner" onClick={this.nextStep}>Encerrar esta etapa</button>
+            );
+        }
+
+        if(this.currentStep().type === 'focus') {
+            return (
+                <button type="button" class="btn btn-danger btn-lg square-corner" onClick={this.start}>Iniciar</button>
             );
         }
 
         return (
-            <button type="button" class="btn btn-light btn-lg" onClick={this.start}>Iniciar!</button>
+            <button type="button" class="btn btn-primary btn-lg square-corner" onClick={this.start}>Iniciar</button>
+        );
+    }
+
+    badge() {
+        if(this.currentStep().type === 'focus') {
+            return (
+                <span class="badge bg-danger square-corner">{this.currentStep().type}</span>
+            );
+        }
+
+        return (
+            <span class="badge bg-primary square-corner">{this.currentStep().type}</span>
         );
     }
 
     render() {
         return (
             <>
-                <div className="row col-12 text-center">
+                <div className="row col-12 text-center rounded bg-light">
 
-                    <div className="display-1">
+                    {this.badge()}
+
+                    <div className="display-1 mt-2 mb-2">
                         <strong>
                             <Clock minutes={this.state.clock.minutes} seconds={this.state.clock.seconds} />
                         </strong>
@@ -105,11 +148,18 @@ export default class Timer extends React.Component {
                     {this.button()}
                 </div>
 
+                <div className="row col-12 mt-2 text-light">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" checked={this.state.autoStart} onChange={this.changeAutoStart} id="auto-start" />
+                    <label class="form-check-label" for="auto-start">
+                        Iniciar etapas automaticamente
+                    </label>
+                </div>
+                </div>
+
                 <div className="row col-12 mt-5">
                     <Steps steps={this.steps} currentStep={this.state.currentStep} />
                 </div>
-
-
             </>
         );
     }

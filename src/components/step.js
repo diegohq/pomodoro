@@ -1,5 +1,4 @@
 import React from "react";
-import Clock from "./clock";
 
 export default class Step extends React.Component {
 
@@ -13,7 +12,12 @@ export default class Step extends React.Component {
 
     active() {
         if(this.props.currentStep === this.props.index) {
-            return 'active';
+            
+            if(this.props.step.type === 'focus') {
+                return 'bg-danger text-light';
+            }
+
+            return 'bg-primary text-light';
         }
 
         return '';
@@ -29,8 +33,8 @@ export default class Step extends React.Component {
 
     render() {
         return (
-            <li className={`list-group-item text-center ${this.active()} ${this.done()}`}>
-                {this.type()} por <Clock minutes={this.props.step.minutes} seconds={0} />
+            <li className={`list-group-item ${this.active()} ${this.done()}`}>
+                {this.props.index + 1}. {this.type()} por {this.props.step.minutes} minutos
             </li>
         );
     }
