@@ -10,6 +10,8 @@ export default class Timer extends React.Component {
             focusTime: "Time to focus",
             relaxTime: "Time to relax",
             start: "Start",
+            restart: "Restart",
+            pause: "Pause",
             skip: "Skip this step",
             autoStart: "Start steps automatically"
         },
@@ -17,6 +19,8 @@ export default class Timer extends React.Component {
             focusTime: "Hora de focar",
             relaxTime: "Hora de relaxar",
             start: "Iniciar",
+            restart: "Reiniciar",
+            pause: "Pausar",
             skip: "Encerrar esta etapa",
             autoStart: "Iniciar etapas automaticamente"
         }
@@ -45,14 +49,17 @@ export default class Timer extends React.Component {
                 seconds: 0
             },
             clockRunning: false,
-            autoStart: false
+            autoStart: false,
+            isPaused: false,
         };
 
         this.currentStep = this.currentStep.bind(this);
         this.button = this.button.bind(this);
+        this.pauseButton = this.pauseButton.bind(this);
         this.nextStep = this.nextStep.bind(this);
         this.changeAutoStart = this.changeAutoStart.bind(this);
         this.start = this.start.bind(this);
+        this.pause = this.pause.bind(this);
         this.subSecond = this.subSecond.bind(this);
     }
 
@@ -86,9 +93,19 @@ export default class Timer extends React.Component {
     }
 
     start() {
-        this.setState({clockRunning: true});
+        this.setState({
+            clockRunning: true,
+            isPaused: false,
+        });
         this.subSecond();
         this.interval = setInterval(this.subSecond, 1000);
+    }
+
+    pause() {
+        clearInterval(this.interval);
+        this.setState({
+            isPaused: true
+        });
     }
 
     subSecond() {
@@ -124,19 +141,30 @@ export default class Timer extends React.Component {
     button() {
         if(this.state.clockRunning) {
             return (
-                <button type="button" class="btn btn-warning btn-lg square-corner" onClick={this.nextStep}>{this.strings.skip}</button>
+                <>
+                    {this.pauseButton()}
+                    <button type="button" class="col-6 btn btn-warning btn-lg square-corner" onClick={this.nextStep}><i class="bi bi-skip-forward-circle"></i> {this.strings.skip}</button>
+                </>
             );
         }
 
         if(this.currentStep().type === 'focus') {
             return (
-                <button type="button" class="btn btn-danger btn-lg square-corner" onClick={this.start}>{this.strings.start}</button>
+                <button type="button" class="btn btn-danger btn-lg square-corner" onClick={this.start}><i class="bi bi-play-circle"></i> {this.strings.start}</button>
             );
         }
 
         return (
-            <button type="button" class="btn btn-primary btn-lg square-corner" onClick={this.start}>{this.strings.start}</button>
+            <button type="button" class="btn btn-primary btn-lg square-corner" onClick={this.start}><i class="bi bi-play-circle"></i> {this.strings.start}</button>
         );
+    }
+
+    pauseButton() {
+        if(this.state.isPaused) {
+            return <button type="button" class="col-6 btn btn-info btn-lg square-corner" onClick={this.start}><i class="bi bi-play-circle"></i> {this.strings.restart}</button>;
+        }
+
+        return <button type="button" class="col-6 btn btn-primary btn-lg square-corner" onClick={this.pause}><i class="bi bi-pause-circle"></i> {this.strings.pause}</button>;
     }
 
     badge() {
