@@ -5,6 +5,8 @@ import LocalizedStrings from 'react-localization';
 
 export default class Timer extends React.Component {
 
+    audio = new Audio('/alert.wav');
+
     strings = new LocalizedStrings({
         en: {
             focusTime: "Time to focus",
@@ -13,7 +15,8 @@ export default class Timer extends React.Component {
             restart: "Restart",
             pause: "Pause",
             skip: "Skip this step",
-            autoStart: "Start steps automatically"
+            autoStart: "Start steps automatically",
+            audioAlert: "Play alert when step is over"
         },
         pt: {
             focusTime: "Hora de focar",
@@ -22,12 +25,13 @@ export default class Timer extends React.Component {
             restart: "Reiniciar",
             pause: "Pausar",
             skip: "Encerrar esta etapa",
-            autoStart: "Iniciar etapas automaticamente"
+            autoStart: "Iniciar etapas automaticamente",
+            audioAlert: "Tocar alerta quando a etapa for concluída"
         }
     });
 
     steps = [
-        {type: 'focus', minutes: 25},
+        {type: 'focus', minutes: 1},
         {type: 'relax', minutes: 5},
         {type: 'focus', minutes: 25},
         {type: 'relax', minutes: 5},
@@ -51,6 +55,7 @@ export default class Timer extends React.Component {
             clockRunning: false,
             autoStart: false,
             isPaused: false,
+            audioAlert: true,
         };
 
         this.currentStep = this.currentStep.bind(this);
@@ -58,6 +63,7 @@ export default class Timer extends React.Component {
         this.pauseButton = this.pauseButton.bind(this);
         this.nextStep = this.nextStep.bind(this);
         this.changeAutoStart = this.changeAutoStart.bind(this);
+        this.changeAudioAlert = this.changeAudioAlert.bind(this);
         this.start = this.start.bind(this);
         this.pause = this.pause.bind(this);
         this.subSecond = this.subSecond.bind(this);
@@ -110,6 +116,9 @@ export default class Timer extends React.Component {
 
     subSecond() {
         if(this.state.clock.minutes === 0 && this.state.clock.seconds === 0) {
+            if(this.state.audioAlert) {
+                this.audio.play();
+            }
             this.nextStep();
             return;
         }
@@ -129,12 +138,6 @@ export default class Timer extends React.Component {
                 minutes: this.state.clock.minutes,
                 seconds: this.state.clock.seconds - 1
             }
-        });
-    }
-
-    changeAutoStart() {
-        this.setState({
-            autoStart: !this.state.autoStart
         });
     }
 
@@ -179,6 +182,18 @@ export default class Timer extends React.Component {
         );
     }
 
+    changeAutoStart() {
+        this.setState({
+            autoStart: !this.state.autoStart
+        });
+    }
+
+    changeAudioAlert() {
+        this.setState({
+            audioAlert: !this.state.audioAlert
+        });
+    }
+
     render() {
         return (
             <>
@@ -199,6 +214,15 @@ export default class Timer extends React.Component {
                     <input class="form-check-input" type="checkbox" checked={this.state.autoStart} onChange={this.changeAutoStart} id="auto-start" />
                     <label class="form-check-label" for="auto-start">
                         {this.strings.autoStart}
+                    </label>
+                </div>
+                </div>
+
+                <div className="row col-12 mt-2 text-light">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" checked={this.state.audioAlert} onChange={this.changeAudioAlert} id="audio-alert" />
+                    <label class="form-check-label" for="audio-alert">
+                        {this.strings.audioAlert}
                     </label>
                 </div>
                 </div>
