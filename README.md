@@ -11,5 +11,5 @@ The main idea here was to build a project using React.
 To run development mode you can run:
 
 ```bash
-docker-compose run --rm npm start
+docker-compose up start
 ```

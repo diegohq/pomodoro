@@ -8,3 +8,11 @@ services:
     entrypoint: ['npm']
     volumes:
       - ./:/code/pomodoro
+  start:
+    image: 'node:16'
+    ports:
+      - '3000:3000'
+    working_dir: '/code/pomodoro'
+    command: ['npm', 'start']
+    volumes:
+      - ./:/code/pomodoro
