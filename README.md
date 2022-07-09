@@ -8,8 +8,20 @@ The main idea here was to build a project using React.
 
 ## Usage
 
-To run development mode you can run:
+To install NPM dependencies:
+
+```bash
+docker-compose run --rm npm install
+```
+
+To run development mode:
 
 ```bash
 docker-compose up start
+```
+
+To run build:
+
+```bash
+docker-compose run --rm npm run build
 ```
