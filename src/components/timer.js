@@ -31,7 +31,7 @@ export default class Timer extends React.Component {
     });
 
     steps = [
-        {type: 'focus', minutes: 1},
+        {type: 'focus', minutes: 25},
         {type: 'relax', minutes: 5},
         {type: 'focus', minutes: 25},
         {type: 'relax', minutes: 5},
