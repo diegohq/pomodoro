@@ -2,6 +2,7 @@ import React from "react";
 import Clock from "./clock";
 import Steps from "./steps";
 import LocalizedStrings from 'react-localization';
+import "bootstrap-icons/font/bootstrap-icons.css";
 
 export default class Timer extends React.Component {
 
