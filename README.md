@@ -6,6 +6,8 @@ This project has been made with educational purposes.
 
 The main idea here was to build a project using React.
 
+You can check this tool online at https://www.pomodoroonline.net/
+
 ## Usage
 
 To install NPM dependencies:
