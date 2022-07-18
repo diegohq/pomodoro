@@ -23,10 +23,10 @@ export default class Steps extends React.Component {
                     {this.strings.steps}
                 </h2>
 
-                <ul class="list-group">
+                <ul className="list-group">
                 {this.props.steps.map((step, index) => (
 
-                    <Step step={step} index={index} currentStep={this.props.currentStep} />
+                    <Step key={index} step={step} index={index} currentStep={this.props.currentStep} />
 
                 ))}
                 <li className="list-group-item text-center list-group-item-danger">

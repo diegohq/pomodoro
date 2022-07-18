@@ -3,6 +3,7 @@ import Clock from "./clock";
 import Steps from "./steps";
 import LocalizedStrings from 'react-localization';
 import "bootstrap-icons/font/bootstrap-icons.css";
+import { Youtube } from "./youtube";
 
 export default class Timer extends React.Component {
 
@@ -147,39 +148,39 @@ export default class Timer extends React.Component {
             return (
                 <>
                     {this.pauseButton()}
-                    <button type="button" class="col-6 btn btn-warning btn-lg square-corner" onClick={this.nextStep}><i class="bi bi-skip-forward-circle"></i> {this.strings.skip}</button>
+                    <button type="button" className="col-6 btn btn-warning btn-lg square-corner" onClick={this.nextStep}><i className="bi bi-skip-forward-circle"></i> {this.strings.skip}</button>
                 </>
             );
         }
 
         if(this.currentStep().type === 'focus') {
             return (
-                <button type="button" class="btn btn-danger btn-lg square-corner" onClick={this.start}><i class="bi bi-play-circle"></i> {this.strings.start}</button>
+                <button type="button" className="btn btn-danger btn-lg square-corner" onClick={this.start}><i className="bi bi-play-circle"></i> {this.strings.start}</button>
             );
         }
 
         return (
-            <button type="button" class="btn btn-primary btn-lg square-corner" onClick={this.start}><i class="bi bi-play-circle"></i> {this.strings.start}</button>
+            <button type="button" className="btn btn-primary btn-lg square-corner" onClick={this.start}><i className="bi bi-play-circle"></i> {this.strings.start}</button>
         );
     }
 
     pauseButton() {
         if(this.state.isPaused) {
-            return <button type="button" class="col-6 btn btn-info btn-lg square-corner" onClick={this.start}><i class="bi bi-play-circle"></i> {this.strings.restart}</button>;
+            return <button type="button" className="col-6 btn btn-info btn-lg square-corner" onClick={this.start}><i className="bi bi-play-circle"></i> {this.strings.restart}</button>;
         }
 
-        return <button type="button" class="col-6 btn btn-primary btn-lg square-corner" onClick={this.pause}><i class="bi bi-pause-circle"></i> {this.strings.pause}</button>;
+        return <button type="button" className="col-6 btn btn-primary btn-lg square-corner" onClick={this.pause}><i className="bi bi-pause-circle"></i> {this.strings.pause}</button>;
     }
 
     badge() {
         if(this.currentStep().type === 'focus') {
             return (
-                <span class="badge bg-danger square-corner">{this.strings.focusTime}</span>
+                <span className="badge bg-danger square-corner">{this.strings.focusTime}</span>
             );
         }
 
         return (
-            <span class="badge bg-primary square-corner">{this.strings.relaxTime}</span>
+            <span className="badge bg-primary square-corner">{this.strings.relaxTime}</span>
         );
     }
 
@@ -211,22 +212,24 @@ export default class Timer extends React.Component {
                 </div>
 
                 <div className="row col-12 mt-2 text-light">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" checked={this.state.autoStart} onChange={this.changeAutoStart} id="auto-start" />
-                    <label class="form-check-label" for="auto-start">
+                <div className="form-check">
+                    <input className="form-check-input" type="checkbox" checked={this.state.autoStart} onChange={this.changeAutoStart} id="auto-start" />
+                    <label className="form-check-label" htmlFor="auto-start">
                         {this.strings.autoStart}
                     </label>
                 </div>
                 </div>
 
-                <div className="row col-12 mt-2 text-light">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" checked={this.state.audioAlert} onChange={this.changeAudioAlert} id="audio-alert" />
-                    <label class="form-check-label" for="audio-alert">
+                <div className="row col-12 mt-2 text-light mb-5">
+                <div className="form-check">
+                    <input className="form-check-input" type="checkbox" checked={this.state.audioAlert} onChange={this.changeAudioAlert} id="audio-alert" />
+                    <label className="form-check-label" htmlFor="audio-alert">
                         {this.strings.audioAlert}
                     </label>
                 </div>
                 </div>
+
+                <Youtube play={this.currentStep().type === 'focus' && this.state.clockRunning && !this.state.isPaused } />
 
                 <div className="row col-12 mt-5">
                     <Steps steps={this.steps} currentStep={this.state.currentStep} />
