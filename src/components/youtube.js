@@ -5,12 +5,12 @@ export class Youtube extends React.Component {
 
     strings = new LocalizedStrings({
         en: {
-            explanation: "How about listening to a song to focus? Insert the ID of the YouTube video you want to start automatically in the focus step, the video will stop when it reaches the relax step.",
-            autoStart: "Automatically start and pause video according to the steps"
+            explanation: "How about listening to a song to focus? Insert the ID of the YouTube video you want to listen",
+            autoStart: "Automatically start and pause video according to the steps: the video will start automatically in the focus step and will stop when it reaches the relax step. It might not work on mobile."
         },
         pt: {
-            explanation: "Que tal ouvir uma música para se concentrar? Coloque o ID do vídeo do YouTube que você quer que incie automaticamente na etapa de foco, o vídeo irá parar quando chegar a etapa de relaxar.",
-            autoStart: "Iniciar e pausar vídeo automaticamente conforme as etapas"
+            explanation: "Que tal ouvir uma música para se concentrar? Coloque o ID do vídeo do YouTube que você quer ouvir",
+            autoStart: "Iniciar e pausar vídeo automaticamente conforme as etapas: o vídeo irá iniciar automaticamente na etapa de foco e irá parar quando chegar a etapa de relaxar. Pode não funcionar em smartphone / tablet"
         }
     });
 
@@ -80,8 +80,9 @@ export class Youtube extends React.Component {
                     </div>
                 </div>
                 
-
-                <iframe width="560" height="315" src={this.src()} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+                <div className="row video-container">
+                <iframe maxwidth="560" height="315" src={this.src()} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+                </div>
             </>
         );
     }
